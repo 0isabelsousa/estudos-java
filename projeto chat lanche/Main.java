@@ -3,36 +3,47 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner leitor = new Scanner(System.in);
-        
-        // Criamos uma variável para controlar a repetição
-        String continuar = "sim"; 
+        String continuar = "sim";
+        double totalVendidoNoDia = 0; // Nossa variável acumuladora
 
-        // O bloco abaixo vai se repetir enquanto 'continuar' for igual a "sim"
         while (continuar.equalsIgnoreCase("sim")) {
+            System.out.println("\n--- CARDÁPIO DA LANCHONETE ---");
+            System.out.println("1 - Coxinha (R$ 5.00)");
+            System.out.println("2 - Pastel (R$ 7.00)");
+            System.out.println("3 - Refrigerante (R$ 4.50)");
+            System.out.print("Escolha o número do item: ");
             
-            System.out.println("\n--- NOVO ATENDIMENTO ---");
-            System.out.println("Qual e o nome do cliente?");
-            String nome = leitor.next();
+            int escolha = leitor.nextInt();
+            double precoItem = 0;
 
-            System.out.println(nome + ", quanto dinheiro voce tem?");
-            double meuDinheiro = leitor.nextDouble();
-
-            System.out.println("Qual o preco do lanche?");
-            double precoLanche = leitor.nextDouble();
-
-            if (meuDinheiro >= precoLanche) {
-                double troco = meuDinheiro - precoLanche;
-                System.out.println("Lanche comprado! Troco: R$ " + troco);
-            } else {
-                double falta = precoLanche - meuDinheiro;
-                System.out.println("Dinheiro insuficiente. Faltam: R$ " + falta);
+            // O switch é como um cardápio inteligente
+            switch (escolha) {
+                case 1: precoItem = 5.00; break;
+                case 2: precoItem = 7.00; break;
+                case 3: precoItem = 4.50; break;
+                default: 
+                    System.out.println("Opção inválida! Vamos considerar R$ 0.00");
             }
 
-            // PERGUNTA CHAVE: Aqui decidimos se o loop continua ou para
+            System.out.println("Preço do item: R$ " + precoItem);
+            System.out.print("Quanto dinheiro o cliente entregou? ");
+            double meuDinheiro = leitor.nextDouble();
+
+            if (meuDinheiro >= precoItem) {
+                double troco = meuDinheiro - precoItem;
+                System.out.println("Venda realizada! Troco: R$ " + troco);
+                totalVendidoNoDia += precoItem; // Soma o valor ao total do dia
+            } else {
+                System.out.println("Dinheiro insuficiente! Venda cancelada.");
+            }
+
             System.out.println("\nDeseja atender outro cliente? (sim/nao)");
             continuar = leitor.next();
         }
 
+        // Quando sair do loop, mostramos o faturamento total
+        System.out.println("\n--- RELATÓRIO FINAL ---");
+        System.out.println("Total faturado hoje: R$ " + totalVendidoNoDia);
         System.out.println("Expediente encerrado. Ate logo!");
         leitor.close();
     }
